@@ -28,7 +28,6 @@ fun WeatherAppBar(
     onAddActionClicked: () -> Unit = {},
     onButtonClicked: () -> Unit = {}
 ) {
-
     TopAppBar(
         title = {
             Text(
