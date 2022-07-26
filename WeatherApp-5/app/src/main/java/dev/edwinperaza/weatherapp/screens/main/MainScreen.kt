@@ -20,6 +20,7 @@ import androidx.navigation.NavController
 import dev.edwinperaza.weatherapp.data.DataOrException
 import dev.edwinperaza.weatherapp.model.Weather
 import dev.edwinperaza.weatherapp.model.WeatherItem
+import dev.edwinperaza.weatherapp.navigation.WeatherScreens
 import dev.edwinperaza.weatherapp.utils.formatDate
 import dev.edwinperaza.weatherapp.utils.formatDecimals
 import dev.edwinperaza.weatherapp.widgets.*
@@ -41,8 +42,6 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel = hiltView
             MainScaffold(weather = it, navController)
         }
     }
-
-
 }
 
 @Composable
@@ -52,7 +51,10 @@ fun MainScaffold(weather: Weather, navController: NavController) {
             title = weather.city.name + ", ${weather.city.country}",
             isMainScreen = true,
             elevation = 5.dp,
-            navController = navController
+            navController = navController,
+            onAddActionClicked = {
+                navController.navigate(WeatherScreens.SearchScreen.name)
+            }
         ) {
             Log.d("MainScaffold", "Button Clicked")
         }
