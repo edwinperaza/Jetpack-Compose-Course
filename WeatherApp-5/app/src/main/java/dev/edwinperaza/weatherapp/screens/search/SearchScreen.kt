@@ -25,6 +25,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import dev.edwinperaza.weatherapp.navigation.WeatherScreens
+import dev.edwinperaza.weatherapp.screens.splash.WeatherSplashScreen
 import dev.edwinperaza.weatherapp.widgets.WeatherAppBar
 
 @ExperimentalComposeUiApi
@@ -50,8 +52,8 @@ fun SearchScreen(navController: NavController) {
                         .fillMaxWidth()
                         .padding(16.dp)
                         .align(CenterHorizontally)
-                ) { searchKeyword ->
-                    Log.d("Search", searchKeyword)
+                ) { city ->
+                    navController.navigate(WeatherScreens.MainScreen.name + "/$city")
                 }
             }
         }

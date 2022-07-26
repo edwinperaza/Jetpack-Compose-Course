@@ -26,14 +26,16 @@ import dev.edwinperaza.weatherapp.utils.formatDecimals
 import dev.edwinperaza.weatherapp.widgets.*
 
 @Composable
-fun MainScreen(navController: NavController, viewModel: MainViewModel = hiltViewModel()) {
+fun MainScreen(navController: NavController, viewModel: MainViewModel = hiltViewModel(), city: String?) {
     val weatherData =
         produceState<DataOrException<Weather, Boolean, Exception>>(
             initialValue = DataOrException(
                 loading = true
             )
         ) {
-            value = viewModel.getWeatherData("Miami", "")
+            city?.let {
+                value = viewModel.getWeatherData(it, "")
+            }
         }.value
     if (weatherData.loading == true) {
         CircularProgressIndicator()
