@@ -1,12 +1,12 @@
 package dev.edwinperaza.weatherapp.screens.main
 
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
@@ -17,13 +17,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
-import coil.compose.rememberImagePainter
 import dev.edwinperaza.weatherapp.data.DataOrException
 import dev.edwinperaza.weatherapp.model.Weather
+import dev.edwinperaza.weatherapp.model.WeatherItem
 import dev.edwinperaza.weatherapp.utils.formatDate
 import dev.edwinperaza.weatherapp.utils.formatDecimals
-import dev.edwinperaza.weatherapp.widgets.WeatherAppBar
+import dev.edwinperaza.weatherapp.widgets.*
 
 @Composable
 fun MainScreen(navController: NavController, viewModel: MainViewModel = hiltViewModel()) {
@@ -100,14 +99,29 @@ fun MainContent(data: Weather) {
                 Text(text = weatherItem.weather[0].main, fontStyle = FontStyle.Italic)
             }
         }
+        HumidityWindPressureRow(weather = weatherItem)
+        Divider()
+        SunriseAndSunsetRow(weather = weatherItem)
+        Text(
+            text = "This Week",
+            style = MaterialTheme.typography.subtitle1,
+            fontWeight = FontWeight.Bold
+        )
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            color = Color(0xFFEEF1EF),
+            shape = RoundedCornerShape(size = 14.dp)
+        ) {
+            LazyColumn(
+                modifier = Modifier.padding(2.dp),
+                contentPadding = PaddingValues(1.dp)
+            ) {
+                items(items = data.list) { item: WeatherItem ->
+                    WeatherRetailRow(item)
+                }
+            }
+        }
     }
-}
-
-@Composable
-fun WeatherStateImage(imageUrl: String) {
-    AsyncImage(
-        model = imageUrl,
-        contentDescription = "Weather Image",
-        modifier = Modifier.size(80.dp)
-    )
 }
