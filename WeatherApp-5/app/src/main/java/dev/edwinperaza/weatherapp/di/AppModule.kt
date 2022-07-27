@@ -1,9 +1,14 @@
 package dev.edwinperaza.weatherapp.di
 
+import android.content.Context
+import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dev.edwinperaza.weatherapp.data.WeatherDao
+import dev.edwinperaza.weatherapp.data.WeatherDatabase
 import dev.edwinperaza.weatherapp.network.WeatherApi
 import dev.edwinperaza.weatherapp.utils.Constants
 import retrofit2.Retrofit
@@ -23,4 +28,20 @@ class AppModule {
             .build()
             .create(WeatherApi::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun provideWeatherDao(weatherDatabase: WeatherDatabase): WeatherDao =
+        weatherDatabase.weatherDao()
+
+    @Singleton
+    @Provides
+    fun provideAppDatabase(@ApplicationContext context: Context): WeatherDatabase =
+        Room.databaseBuilder(
+            context,
+            WeatherDatabase::class.java,
+            "weather_database"
+        )
+            .fallbackToDestructiveMigration()
+            .build()
 }
