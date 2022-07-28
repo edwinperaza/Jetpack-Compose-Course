@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dev.edwinperaza.weatherapp.data.UnitDao
 import dev.edwinperaza.weatherapp.data.WeatherDao
 import dev.edwinperaza.weatherapp.data.WeatherDatabase
 import dev.edwinperaza.weatherapp.network.WeatherApi
@@ -33,6 +34,10 @@ class AppModule {
     @Provides
     fun provideWeatherDao(weatherDatabase: WeatherDatabase): WeatherDao =
         weatherDatabase.weatherDao()
+
+    @Singleton
+    @Provides
+    fun provideUnitDao(weatherDatabase: WeatherDatabase): UnitDao = weatherDatabase.unitDao()
 
     @Singleton
     @Provides

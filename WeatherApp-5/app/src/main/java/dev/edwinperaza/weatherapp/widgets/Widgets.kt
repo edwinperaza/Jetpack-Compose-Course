@@ -129,7 +129,7 @@ fun SunriseAndSunsetRow(weather: WeatherItem) {
 }
 
 @Composable
-fun HumidityWindPressureRow(weather: WeatherItem) {
+fun HumidityWindPressureRow(weather: WeatherItem, isImperial: Boolean) {
     Row(
         modifier = Modifier
             .padding(12.dp)
@@ -166,7 +166,7 @@ fun HumidityWindPressureRow(weather: WeatherItem) {
                 modifier = Modifier.size(20.dp)
             )
             Text(
-                text = "${weather.speed}mph",
+                text = "${formatDecimals(weather.speed)} " + if (isImperial) "mph" else "m/s",
                 style = MaterialTheme.typography.caption
             )
         }
